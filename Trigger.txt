@@ -1,0 +1,13 @@
+select BIRTHDATE from synthea.patients;
+
+delimiter $$
+create trigger accepted_birthdate before insert on sythea.patients
+for each row
+if new.BIRTHDATE <= 1985-01-01 then
+	signal sqlstate '45000'
+    set message_text = 'ERROR: We do not accept patients born before 1985';
+  end if;
+  end; $$
+    delimiter ;
+
+### Error Code: 1142. TRIGGER command denied to user 'emadoddintaherinia'@'173.56.105.106' for table 'patients'

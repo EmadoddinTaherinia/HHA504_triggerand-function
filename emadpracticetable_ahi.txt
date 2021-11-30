@@ -1,0 +1,34 @@
+use ahi;
+create table emad_clinicaldata_practice(
+id int auto_increment primary key,
+patientUID int not null,
+lastname varchar(50) not null,
+systolic int not null,
+diastolic int not null
+);
+show tables;
+insert into emad_clinicaldata_practice (patientUID, lastname, systolic, diastolic) 
+values(485695, 'Gere', 140, 56), 
+      (317598, 'Maha', 120, 60),
+      (157546, 'Homer', 110, 70),
+      (146578, 'Kara', 130, 85);
+      select * from emad_clinicaldata_practice;
+      
+      delimiter $$
+      create trigger limited_patientUID before insert on emad_clinicaldata_practice
+      for each row
+      begin
+          if new.patientUID = 154637 then
+             signal sqlstate '45000'
+             set message_text = 'ERROR: This patient has passed away';
+          end if;
+       end; $$
+       delimiter ;
+       
+       insert into emad_clinicaldat_practice
+       (patientUID, lastname, systolic, diastolic)
+       values (154637, 'joe', 125, 47);
+
+       #### Error messages received after running last section my query
+       ## Error Code: 1044. Access denied for user 'emadoddintaherinia'@'%' to database 'emad_clinicaldata_practice'
+       ##Error Code: 1146. Table 'ahi.emad_clinicaldat_practice' doesn't exist

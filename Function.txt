@@ -1,0 +1,16 @@
+SELECT CITY
+FROM synthea.organizations;
+
+delimiter $$
+create function location (CITY varchar(20))
+returns varchar(20)
+begin 
+  declare vacinity varchar(20);
+  if CITY = 'BOSTON'
+  then set vacinity = 'Center';
+  end if;
+  if city != 'BOSTON'
+  then set vacinity = 'Remote'; 
+  return (vacinity);
+  delimiter $$;
+  
